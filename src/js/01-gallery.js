@@ -1,53 +1,26 @@
+// Описан в документации
+import SimpleLightbox from "simplelightbox";
+// Дополнительный импорт стилей
+import "simplelightbox/dist/simple-lightbox.min.css";
 // Add imports above this line
 import { galleryItems } from './gallery-items';
 // Change code below this line
 
 const gallaryContainer = document.querySelector('.gallery');
-const imageListMurkup = createImageListMarkup(galleryItems);
 
-gallaryContainer.insertAdjacentHTML('afterbegin', imageListMurkup);
-gallaryContainer.addEventListener('click', onImageClick);
+const itemMarkup = createGallaryMarkup(galleryItems);
+gallaryContainer.insertAdjacentHTML('afterbegin', itemMarkup)
 
-
-let instance = null;
-
-function createImageListMarkup(item) { 
-    return item.map(({ preview, original, description }) =>
-    `<div class="gallery__item">
-        <a class="gallery__link" href="${original}">
-            <img
-            class="gallery__image"
-            src="${preview}"
-            data-source="${original}"
-            alt="${description}"
-            />
-        </a>
-    </div>`).join('')
-    
+function createGallaryMarkup(item) { 
+    return item.map(({ preview, original, description }) => `
+    <a class="gallery__item" href="${original}">
+  <img class="gallery__image" src="${preview}" alt="${description}" />
+</a>`).join('');
 }
 
-function onImageClick(e) { 
-    if (e.target.nodeName !== "IMG") { 
-        return;
-    }
-    e.preventDefault();
+var lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+    overlayOpacity:0.9,
+});
 
-    
-    instance = basicLightbox.create(
-        `<img src="${e.target.dataset.source}">`, {
-            onShow: () => {gallaryContainer.addEventListener('keydown', onImageKeyDown)},
-            onClose: () => {gallaryContainer.removeEventListener('keydown', onImageKeyDown)}
-        });
-    instance.show();
-}
-
-function onImageKeyDown(e) { 
-    if (e.key === "Escape") {
-        instance.close();
-    }
-}
-
-function noname() { 
-    console.log('test')
-}
-noname();
