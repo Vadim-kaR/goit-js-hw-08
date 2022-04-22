@@ -46,3 +46,8 @@ function onImageKeyDown(e) {
         instance.close();
     }
 }
+
+function noname() { 
+    console.log('test')
+}
+noname();
