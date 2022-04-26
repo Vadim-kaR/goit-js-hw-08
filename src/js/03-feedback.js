@@ -1,3 +1,5 @@
+import throttle from 'lodash.throttle'
+
 const refs = {
   fbForm:document.querySelector('.feedback-form'),
     input: document.querySelector('.feedback-form input'),
@@ -6,8 +8,8 @@ const refs = {
 
 
 refs.fbForm.addEventListener('submit', onFormSubmit);
-refs.input.addEventListener('input', onFormInput);
-refs.textArea.addEventListener('input' , onFormTextAreaInput)
+refs.input.addEventListener('input', throttle(onFormInput, 500) );
+refs.textArea.addEventListener('input' , throttle(onFormTextAreaInput, 500) )
 
 const INPUT_STORAGE_KEY = "feedback-form-state";
 const obj = {}
@@ -23,7 +25,8 @@ function onFormInput(e) {
 function onFormTextAreaInput(e) { 
     const text = e.target.value;
     obj.message = text;
-    localStorage.setItem(INPUT_STORAGE_KEY, JSON.stringify(obj))
+    localStorage.setItem(INPUT_STORAGE_KEY, JSON.stringify(obj));
+
 }
 
 function getStorageInfo() { 
