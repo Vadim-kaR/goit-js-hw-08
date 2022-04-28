@@ -7,7 +7,7 @@ const refs = {
 }
 
 refs.fbForm.addEventListener('submit', onFormSubmit);
-refs.fbForm.addEventListener('input', onFormInput);
+refs.fbForm.addEventListener('input', throttle(onFormInput, 500) );
 
 
 const INPUT_STORAGE_KEY = "feedback-form-state";
